@@ -1,4 +1,4 @@
-package com.deviceinsight.kafka.health;
+package me.bvn13.kafka.health;
 
 final class KafkaCommunicationResult {
 
