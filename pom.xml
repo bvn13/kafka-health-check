@@ -114,7 +114,7 @@
 						<gitFlowConfig>
 							<developmentBranch>develop</developmentBranch>
 						</gitFlowConfig>
-						<incrementVersionAtFinish>true</incrementVersionAtFinish>
+						<incrementVersionAtFinish>false</incrementVersionAtFinish>
 						<versionDigitToIncrement>2</versionDigitToIncrement>
 					</configuration>
 				</plugin>
