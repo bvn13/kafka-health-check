@@ -10,7 +10,7 @@ Add the following dependency to your `pom.xml`
 
 ```xml
 <dependency>
-    <groupId>com.deviceinsight.kafka</groupId>
+    <groupId>me.bvn13.kafka.health</groupId>
     <artifactId>kafka-health-check</artifactId>
     <version>1.4.0</version>
 </dependency>
