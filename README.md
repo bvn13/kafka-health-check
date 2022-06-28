@@ -12,7 +12,7 @@ Add the following dependency to your `pom.xml`
 <dependency>
     <groupId>me.bvn13.kafka.health</groupId>
     <artifactId>kafka-health-check</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 

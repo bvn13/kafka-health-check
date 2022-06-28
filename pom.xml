@@ -6,7 +6,7 @@
 
 	<groupId>me.bvn13.kafka.health</groupId>
 	<artifactId>kafka-health-check</artifactId>
-	<version>1.4.2</version>
+	<version>1.5.1</version>
 	<packaging>jar</packaging>
 
 	<name>Kafka Health Check</name>
@@ -229,6 +229,10 @@
 					<id>ossrh</id>
 					<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 				</snapshotRepository>
+				<repository>
+					<id>ossrh</id>
+					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
 			</distributionManagement>
 
 			<pluginRepositories>
