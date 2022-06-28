@@ -6,7 +6,7 @@
 
 	<groupId>me.bvn13.kafka.health</groupId>
 	<artifactId>kafka-health-check</artifactId>
-	<version>1.4.1</version>
+	<version>1.4.2</version>
 	<packaging>jar</packaging>
 
 	<name>Kafka Health Check</name>
