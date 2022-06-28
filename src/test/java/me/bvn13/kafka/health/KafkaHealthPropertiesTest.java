@@ -1,4 +1,4 @@
-package com.deviceinsight.kafka.health;
+package me.bvn13.kafka.health;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -21,7 +21,6 @@ public class KafkaHealthPropertiesTest {
 			"kafka.health.topic", "custom-topic",
 			"kafka.health.send-receive-timeout", "1m",
 			"kafka.health.poll-timeout", "2s",
-			"kafka.health.subscription-timeout", "10s",
 			"kafka.health.cache.maximum-size", "42"
 	));
 
@@ -29,7 +28,6 @@ public class KafkaHealthPropertiesTest {
 			"kafka.health.topic", "custom-topic",
 			"kafka.health.send-receive-timeout-ms", "60000",
 			"kafka.health.poll-timeout-ms", "2000",
-			"kafka.health.subscription-timeout-ms", "10000",
 			"kafka.health.cache.maximum-size", "42"
 	));
 	// @formatter:on
@@ -46,7 +44,6 @@ public class KafkaHealthPropertiesTest {
 		assertThat(kafkaHealthProperties.getTopic()).isEqualTo("custom-topic");
 		assertThat(kafkaHealthProperties.getSendReceiveTimeout()).isEqualTo(Duration.ofMinutes(1));
 		assertThat(kafkaHealthProperties.getPollTimeout()).isEqualTo(Duration.ofSeconds(2));
-		assertThat(kafkaHealthProperties.getSubscriptionTimeout()).isEqualTo(Duration.ofSeconds(10));
 		assertThat(kafkaHealthProperties.getCache().getMaximumSize()).isEqualTo(42);
 	}
 

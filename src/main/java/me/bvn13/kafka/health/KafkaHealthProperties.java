@@ -1,4 +1,4 @@
-package com.deviceinsight.kafka.health;
+package me.bvn13.kafka.health;
 
 import java.time.Duration;
 
@@ -7,7 +7,6 @@ public class KafkaHealthProperties {
 	private String topic = "health-checks";
 	private Duration sendReceiveTimeout = Duration.ofMillis(2500);
 	private Duration pollTimeout = Duration.ofMillis(200);
-	private Duration subscriptionTimeout = Duration.ofSeconds(5);
 	private KafkaHealthCheckCacheProperties cache = new KafkaHealthCheckCacheProperties();
 
 	public String getTopic() {
@@ -44,19 +43,6 @@ public class KafkaHealthProperties {
 		setPollTimeout(Duration.ofMillis(pollTimeoutMs));
 	}
 
-	public Duration getSubscriptionTimeout() {
-		return subscriptionTimeout;
-	}
-
-	public void setSubscriptionTimeout(Duration subscriptionTimeout) {
-		this.subscriptionTimeout = subscriptionTimeout;
-	}
-
-	@Deprecated
-	public void setSubscriptionTimeoutMs(long subscriptionTimeoutMs) {
-		setSubscriptionTimeout(Duration.ofMillis(subscriptionTimeoutMs));
-	}
-
 	public KafkaHealthCheckCacheProperties getCache() {
 		return cache;
 	}
@@ -68,7 +54,7 @@ public class KafkaHealthProperties {
 	@Override
 	public String toString() {
 		return "KafkaHealthProperties{" + "topic='" + topic + '\'' + ", sendReceiveTimeout=" + sendReceiveTimeout +
-				", pollTimeout=" + pollTimeout + ", subscriptionTimeout=" + subscriptionTimeout + ", cacheProperties=" +
+				", pollTimeout=" + pollTimeout + ", cacheProperties=" +
 				cache + '}';
 	}
 }

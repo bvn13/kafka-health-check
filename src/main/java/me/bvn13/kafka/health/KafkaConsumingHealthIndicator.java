@@ -1,4 +1,4 @@
-package com.deviceinsight.kafka.health;
+package me.bvn13.kafka.health;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,7 +55,6 @@ public class KafkaConsumingHealthIndicator extends AbstractHealthIndicator {
 	private final String topic;
 	private final Duration sendReceiveTimeout;
 	private final Duration pollTimeout;
-	private final Duration subscriptionTimeout;
 
 	private final ExecutorService executor;
 	private final AtomicBoolean running;
@@ -78,7 +76,6 @@ public class KafkaConsumingHealthIndicator extends AbstractHealthIndicator {
 		this.topic = kafkaHealthProperties.getTopic();
 		this.sendReceiveTimeout = kafkaHealthProperties.getSendReceiveTimeout();
 		this.pollTimeout = kafkaHealthProperties.getPollTimeout();
-		this.subscriptionTimeout = kafkaHealthProperties.getSubscriptionTimeout();
 
 		Map<String, Object> kafkaConsumerPropertiesCopy = new HashMap<>(kafkaConsumerProperties);
 
@@ -142,7 +139,7 @@ public class KafkaConsumingHealthIndicator extends AbstractHealthIndicator {
 
 	private void subscribeToTopic() throws InterruptedException {
 
-		final CountDownLatch subscribed = new CountDownLatch(1);
+		final AtomicBoolean subscribed = new AtomicBoolean(false);
 
 		logger.info("Subscribe to health check topic={}", topic);
 
@@ -150,7 +147,7 @@ public class KafkaConsumingHealthIndicator extends AbstractHealthIndicator {
 
 			@Override
 			public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
-				// nothing to do her
+				// nothing to do here
 			}
 
 			@Override
@@ -158,13 +155,13 @@ public class KafkaConsumingHealthIndicator extends AbstractHealthIndicator {
 				logger.debug("Got partitions = {}", partitions);
 
 				if (!partitions.isEmpty()) {
-					subscribed.countDown();
+					subscribed.set(true);
 				}
 			}
 		});
 
 		consumer.poll(pollTimeout);
-		if (!subscribed.await(subscriptionTimeout.toMillis(), MILLISECONDS)) {
+		if (!subscribed.get()) {
 			throw new BeanInitializationException("Subscription to kafka failed, topic=" + topic);
 		}
 
