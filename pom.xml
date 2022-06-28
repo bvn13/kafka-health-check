@@ -6,7 +6,7 @@
 
 	<groupId>me.bvn13.kafka.health</groupId>
 	<artifactId>kafka-health-check</artifactId>
-	<version>1.6.0-SNAPSHOT</version>
+	<version>1.6.1</version>
 	<packaging>jar</packaging>
 
 	<name>Kafka Health Check</name>
@@ -32,7 +32,7 @@
 		<!-- Versions -->
 		<guava.version>30.1.1-jre</guava.version>
 
-		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<gitflow-maven-plugin.version>1.15.1</gitflow-maven-plugin.version>
 	</properties>
@@ -112,6 +112,7 @@
 						<pushRemote>false</pushRemote>
 						<gitFlowConfig>
 							<developmentBranch>develop</developmentBranch>
+							<incrementVersionAtFinish>false</incrementVersionAtFinish>
 						</gitFlowConfig>
 						<versionDigitToIncrement>1</versionDigitToIncrement>
 					</configuration>
@@ -229,10 +230,10 @@
 					<id>ossrh</id>
 					<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 				</snapshotRepository>
-				<repository>
-					<id>ossrh</id>
-					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-				</repository>
+<!--				<repository>-->
+<!--					<id>ossrh</id>-->
+<!--					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--				</repository>-->
 			</distributionManagement>
 
 			<pluginRepositories>
