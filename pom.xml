@@ -34,7 +34,7 @@
 
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<gitflow-maven-plugin.version>1.15.1</gitflow-maven-plugin.version>
+		<gitflow-maven-plugin.version>1.18.0</gitflow-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -112,8 +112,8 @@
 						<pushRemote>false</pushRemote>
 						<gitFlowConfig>
 							<developmentBranch>develop</developmentBranch>
-							<incrementVersionAtFinish>false</incrementVersionAtFinish>
 						</gitFlowConfig>
+						<incrementVersionAtFinish>false</incrementVersionAtFinish>
 						<versionDigitToIncrement>1</versionDigitToIncrement>
 					</configuration>
 				</plugin>
