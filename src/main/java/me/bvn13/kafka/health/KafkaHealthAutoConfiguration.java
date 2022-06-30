@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass(AbstractHealthIndicator.class)
-//@ConditionalOnProperty(name = "kafka.health.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "kafka.health.enabled", havingValue = "true")
 public class KafkaHealthAutoConfiguration {
 
 	@Bean
