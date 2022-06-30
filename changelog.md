@@ -1,9 +1,16 @@
 # KafkaHealthCheck
 
+## Version 1.5.3
+
+* Added SpringBootAutoConfiguration
+
+## Version 1.5.2
+
+* Changed maven group publication: switched into `me.bvn13.kafka.health`
+
 ## Version 1.4.0
 
 * Got rid of `subscriptionTimeout` as a redundant timeout
-* Changed maven group publication: switched into `me.bvn13.kafka.health`
 
 ## Version 1.3.0
 

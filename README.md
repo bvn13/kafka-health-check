@@ -12,7 +12,7 @@ Add the following dependency to your `pom.xml`
 <dependency>
     <groupId>me.bvn13.kafka.health</groupId>
     <artifactId>kafka-health-check</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.4</version>
 </dependency>
 ```
 
@@ -66,12 +66,13 @@ Now if you call the actuator endpoint `actuator/health` you should see the follo
 ## Configuration
 
 
-| Property                           | Default          | Description                                                                                                                                                                                                                                                |
-|------------------------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| kafka.health.topic                 | `health-checks`  | Topic to subscribe to                                                                                                                                                                                                                                      |
-| kafka.health.sendReceiveTimeout    | 2.5s             | The maximum time, given as [Duration](https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-conversion-duration), to wait for sending and receiving the message. |
-| kafka.health.pollTimeout           | 200ms            | The time, given as [Duration](https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-conversion-duration), spent fetching the data from the topic                           |
-| kafka.health.cache.maximumSize     | 200              | Specifies the maximum number of entries the cache may contain.                                                                                                                                                                                             |
+| Property                        | Default         | Description                                                                                                                                                                                                                                     |
+|---------------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| kafka.health.enabled            | false           | Enabling kafka health check                                                                                                                                                                                                                     |
+| kafka.health.topic              | `health-checks` | Topic to subscribe to                                                                                                                                                                                                                           |
+| kafka.health.sendReceiveTimeout | 2.5s            | The maximum time, given as [Duration](https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-conversion-duration), to wait for sending and receiving the message.|
+| kafka.health.pollTimeout        | 200ms           | The time, given as [Duration](https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-conversion-duration), spent fetching the data from the topic                |
+| kafka.health.cache.maximumSize  | 200             | Specifies the maximum number of entries the cache may contain.                                                                                                                                                                                  |
 
 
 
