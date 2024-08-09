@@ -25,22 +25,12 @@ public class KafkaHealthProperties {
 		this.sendReceiveTimeout = sendReceiveTimeout;
 	}
 
-	@Deprecated
-	public void setSendReceiveTimeoutMs(long sendReceiveTimeoutMs) {
-		setSendReceiveTimeout(Duration.ofMillis(sendReceiveTimeoutMs));
-	}
-
 	public Duration getPollTimeout() {
 		return pollTimeout;
 	}
 
 	public void setPollTimeout(Duration pollTimeout) {
 		this.pollTimeout = pollTimeout;
-	}
-
-	@Deprecated
-	public void setPollTimeoutMs(long pollTimeoutMs) {
-		setPollTimeout(Duration.ofMillis(pollTimeoutMs));
 	}
 
 	public KafkaHealthCheckCacheProperties getCache() {

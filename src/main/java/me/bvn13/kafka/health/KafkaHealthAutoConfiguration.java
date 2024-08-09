@@ -25,8 +25,8 @@ public class KafkaHealthAutoConfiguration {
 	@ConditionalOnMissingBean(KafkaConsumingHealthIndicator.class)
 	public KafkaConsumingHealthIndicator kafkaConsumingHealthIndicator(KafkaHealthProperties kafkaHealthProperties,
 			KafkaProperties kafkaProperties) {
-		return new KafkaConsumingHealthIndicator(kafkaHealthProperties, kafkaProperties.buildConsumerProperties(),
-				kafkaProperties.buildProducerProperties());
+		return new KafkaConsumingHealthIndicator(kafkaHealthProperties, kafkaProperties.buildConsumerProperties(null),
+				kafkaProperties.buildProducerProperties(null));
 	}
 
 }
