@@ -17,8 +17,8 @@ import org.springframework.boot.actuate.health.Status;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import org.springframework.kafka.test.EmbeddedKafkaZKBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.kafka.test.core.BrokerAddress;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,53 +31,55 @@ import java.util.Map;
 @EmbeddedKafka(topics = TOPIC)
 public class KafkaConsumingHealthIndicatorTest {
 
-	static final String TOPIC = "health-checks";
+    static final String TOPIC = "health-checks";
 
-	private Consumer<String, String> consumer;
+    private Consumer<String, String> consumer;
 
-	@Autowired
-	private EmbeddedKafkaBroker embeddedKafkaBroker;
+    @Autowired
+    private EmbeddedKafkaBroker embeddedKafkaBroker;
 
-	@BeforeEach
-	public void setUp() {
-		Map<String, Object> consumerConfigs =
-				new HashMap<>(KafkaTestUtils.consumerProps("consumer", "false", embeddedKafkaBroker));
-		consumer = new DefaultKafkaConsumerFactory<>(consumerConfigs, new StringDeserializer(),
-				new StringDeserializer()).createConsumer();
-		consumer.subscribe(Collections.singletonList(TOPIC));
-		consumer.poll(Duration.ofSeconds(1));
-	}
+    @BeforeEach
+    public void setUp() {
+        Map<String, Object> consumerConfigs =
+                new HashMap<>(KafkaTestUtils.consumerProps("consumer", "false", embeddedKafkaBroker));
+        consumer = new DefaultKafkaConsumerFactory<>(consumerConfigs, new StringDeserializer(),
+                new StringDeserializer()).createConsumer();
+        consumer.subscribe(Collections.singletonList(TOPIC));
+        consumer.poll(Duration.ofSeconds(1));
+    }
 
-	@AfterEach
-	public void tearDown() {
-		consumer.close();
-		embeddedKafkaBroker.getKafkaServers().forEach(KafkaServer::shutdown);
-		embeddedKafkaBroker.getKafkaServers().forEach(KafkaServer::awaitShutdown);
-	}
+    @AfterEach
+    public void tearDown() {
+        consumer.close();
+        if(embeddedKafkaBroker instanceof final EmbeddedKafkaZKBroker embeddedKafkaZKBroker) {
+            embeddedKafkaZKBroker.getKafkaServers().forEach(KafkaServer::shutdown);
+            embeddedKafkaZKBroker.getKafkaServers().forEach(KafkaServer::awaitShutdown);
+        }
+    }
 
-	@Test
-	public void kafkaIsDown() throws Exception {
+    @Test
+    public void given_that_the_server_is_first_up_it_should_report_kafka_as_down_when_the_server_has_been_shutdown() throws Exception {
 		final KafkaHealthProperties kafkaHealthProperties = new KafkaHealthProperties();
 		kafkaHealthProperties.setTopic(TOPIC);
 
-		final KafkaProperties kafkaProperties = new KafkaProperties();
-		final BrokerAddress[] brokerAddresses = embeddedKafkaBroker.getBrokerAddresses();
-		kafkaProperties.setBootstrapServers(Collections.singletonList(brokerAddresses[0].toString()));
+        final KafkaProperties kafkaProperties = new KafkaProperties();
+        final var brokerAddresses = embeddedKafkaBroker.getBrokersAsString();
+        kafkaProperties.setBootstrapServers(Collections.singletonList(brokerAddresses));
 
-		final KafkaConsumingHealthIndicator healthIndicator =
-				new KafkaConsumingHealthIndicator(kafkaHealthProperties, kafkaProperties.buildConsumerProperties(),
-						kafkaProperties.buildProducerProperties());
-		healthIndicator.subscribeAndSendMessage();
+        final KafkaConsumingHealthIndicator healthIndicator =
+                new KafkaConsumingHealthIndicator(kafkaHealthProperties, kafkaProperties.buildConsumerProperties(null),
+                        kafkaProperties.buildProducerProperties(null));
+        healthIndicator.subscribeAndSendMessage();
 
-		Health health = healthIndicator.health();
-		assertThat(health.getStatus()).isEqualTo(Status.UP);
+        Health health = healthIndicator.health();
+        assertThat(health.getStatus()).isEqualTo(Status.UP);
 
-		shutdownKafka();
+        shutdownKafka();
 
-		Awaitility.await().untilAsserted(() -> assertThat(healthIndicator.health().getStatus()).isEqualTo(Status.DOWN));
-	}
+        Awaitility.await().untilAsserted(() -> assertThat(healthIndicator.health().getStatus()).isEqualTo(Status.DOWN));
+    }
 
-	private void shutdownKafka() {
-		this.embeddedKafkaBroker.destroy();
-	}
+    private void shutdownKafka() {
+        this.embeddedKafkaBroker.destroy();
+    }
 }
